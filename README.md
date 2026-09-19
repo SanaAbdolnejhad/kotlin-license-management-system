@@ -101,15 +101,108 @@ Example request:
 }
 ```
 
-## Android Emulator
+## How to Run
 
-When the backend is running locally on the development machine, the Android Emulator accesses the host using:
+### Prerequisites
+
+Install the following before running the project:
+
+- JDK 22 for the Ktor server
+- PostgreSQL
+- Android Studio
+- Android SDK 33
+- An Android Emulator
+
+### 1. Create the PostgreSQL database
+
+Connect to PostgreSQL:
+
+```bash
+psql -U postgres -d postgres
+```
+
+Create the database:
+
+```sql
+CREATE DATABASE license_system;
+```
+
+Then exit PostgreSQL:
+
+```text
+\q
+```
+
+The server creates the required tables automatically when it starts.
+
+### 2. Set the database password
+
+The PostgreSQL password is intentionally not stored in the repository.
+
+Set it as an environment variable:
+
+```bash
+export DB_PASSWORD='your_postgresql_password'
+```
+
+If you run the server from IntelliJ IDEA, add the same variable under:
+
+```text
+Run → Edit Configurations → Environment variables
+```
+
+Use:
+
+```text
+DB_PASSWORD=your_postgresql_password
+```
+
+### 3. Run the Ktor server
+
+From the repository root:
+
+```bash
+cd server
+./gradlew run
+```
+
+The server starts on:
+
+```text
+http://localhost:8080
+```
+
+Opening the root endpoint should return:
+
+```text
+License Server Running
+```
+
+### 4. Run the Android client
+
+1. Open the `android-client` folder in Android Studio.
+2. Let Gradle sync complete.
+3. Start an Android Emulator.
+4. Keep the Ktor server running on the host machine.
+5. Run the Android app.
+
+The Android Emulator accesses the local server through:
 
 ```text
 http://10.0.2.2:8080/
 ```
 
 Inside the Android Emulator, `10.0.2.2` maps to the host machine's loopback interface.
+
+### 5. Activate a license
+
+Enter a customer name and email in the Android app and press:
+
+```text
+ACTIVATE LICENSE
+```
+
+The client generates the device fingerprint, sends the provisioning request to the server, and displays the returned license information.
 
 ## Database
 
@@ -122,9 +215,11 @@ The PostgreSQL database uses these main tables:
 
 ## Security Notes
 
-Do not commit database passwords, API keys, tokens, keystores, or machine-specific configuration files.
+Database passwords, API keys, tokens, keystores, machine-specific files, and build output should not be committed.
 
-Use environment variables or local configuration for secrets.
+The server reads the PostgreSQL password from the `DB_PASSWORD` environment variable.
+
+The Android client currently uses plain HTTP for local emulator development. Production deployments should use HTTPS.
 
 ## Status
 
