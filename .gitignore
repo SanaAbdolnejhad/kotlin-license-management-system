@@ -1,0 +1,38 @@
+# macOS
+.DS_Store
+
+# IntelliJ IDEA / Android Studio
+.idea/
+*.iml
+
+# Gradle
+.gradle/
+**/.gradle/
+**/build/
+
+# Kotlin
+.kotlin/
+out/
+
+# Android
+local.properties
+**/local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Environment / secrets
+.env
+.env.*
+*.jks
+*.keystore
+*.pem
+*.key
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.swp
+*~
